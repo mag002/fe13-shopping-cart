@@ -12,16 +12,16 @@ import {
 export default function Navbar() {
   const style = {
     textDecoration: "none",
-    color: "white"
+    color: "black"
   };
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" color="inherit">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <Icon>menu</Icon>
-          </IconButton>
-          <Typography variant="h6">News</Typography>
+          <img
+            style={{ height: "50px" }}
+            src="https://www.kmin.edu.vn/assets/[KMIN]_Logo_Design_02.png"
+          />
           <Box ml="auto">
             <Button color="inherit">
               <Link style={style} to="/products">
