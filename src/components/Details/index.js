@@ -6,12 +6,30 @@ import {
   Grid,
   Typography,
   Paper,
-  Button
+  Button,
+  TextField
 } from "@material-ui/core";
 export default class Details extends React.Component {
   state = {
     product: {},
-    loading: true
+    loading: true,
+    size: "",
+    quantity: 0
+  };
+  handleClickAddToCart = () => {
+    console.log({
+      id: this.state.product.id,
+      name: this.state.product.name,
+      price: this.state.product.price,
+      size: this.state.size,
+      quantity: this.state.quantity
+    });
+  };
+  handleSelectSize = event => {
+    this.setState({ size: event.target.value });
+  };
+  handleChangeQuantity = event => {
+    this.setState({ quantity: event.target.value });
   };
   componentDidMount() {
     axios
@@ -67,23 +85,41 @@ export default class Details extends React.Component {
                   <Box display="flex">
                     {size.map(s => {
                       return (
-                        <Box
-                          height="30px"
-                          width="30px"
-                          borderRadius="15px"
-                          boxShadow={4}
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
-                          marginRight="10px"
-                        >
+                        <label>
+                          <input
+                            type="radio"
+                            name="sizes"
+                            style={{
+                              height: "30px",
+                              width: "30px",
+                              borderRadius: "15px",
+                              boxShadow: "0 0 25px rbga(0,0,0,0.16)",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              marginRight: "10px"
+                            }}
+                            value={s}
+                            onChange={this.handleSelectSize}
+                          />
                           {s}
-                        </Box>
+                        </label>
                       );
                     })}
                   </Box>
-                  <h1>- INPUT NUMBER +</h1>
-                  <Button variant="contained" color="primary">
+
+                  <Box width="200px" my={3}>
+                    <TextField
+                      type="number"
+                      onChange={this.handleChangeQuantity}
+                    />
+                  </Box>
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleClickAddToCart}
+                  >
                     Add to Cart
                   </Button>
                 </Box>

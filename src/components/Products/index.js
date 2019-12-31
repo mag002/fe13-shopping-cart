@@ -10,8 +10,12 @@ export default class Products extends React.Component {
     desc: 0
     // split
   };
-  handleChangePage = value => {
-    this.setState({ page: value });
+  // handleChangePage = value => {
+  //   this.setState({ page: value });
+  // };
+  handleMorePage = () => {
+    console.log("ok" + this.state.page);
+    this.setState({ page: this.state.page + 1 });
   };
   handleChangeDesc = value => {
     this.setState({ desc: value });
@@ -71,10 +75,7 @@ export default class Products extends React.Component {
                   .sort((a, b) => {
                     return this.state.desc * (a.price - b.price);
                   })
-                  .splice(
-                    (this.state.page - 1) * this.state.page_size,
-                    this.state.page_size
-                  )
+                  .splice(0, this.state.page_size * this.state.page)
                   .map(product => {
                     return (
                       <Product
@@ -98,7 +99,20 @@ export default class Products extends React.Component {
                 </Box>
               )}
             </Grid>
-            <Box display="flex">{pagination}</Box>
+            <Box display="flex">
+              {this.state.page >=
+              Math.ceil(this.state.products.length / this.state.page_size) ? (
+                undefined
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleMorePage}
+                >
+                  Load more
+                </Button>
+              )}
+            </Box>
           </Box>
         </Grid>
       </Grid>
