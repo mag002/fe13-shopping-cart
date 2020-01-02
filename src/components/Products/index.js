@@ -2,7 +2,9 @@ import React from "react";
 import { Grid, Box, CircularProgress, Button } from "@material-ui/core";
 import Product from "../Product";
 import axios from "axios";
-export default class Products extends React.Component {
+import { connect } from "react-redux";
+
+class Products extends React.Component {
   state = {
     products: [],
     page: 1,
@@ -84,6 +86,7 @@ export default class Products extends React.Component {
                         price={product.price}
                         id={product.id}
                         imgSrc={product.src}
+                        addToCart={this.props.addToCart}
                       ></Product>
                     );
                   })
@@ -119,3 +122,15 @@ export default class Products extends React.Component {
     );
   }
 }
+
+const mapStateToProps = null;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addToCart: product => dispatch({ type: "ADD_TO_CART", payload: product })
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Products);

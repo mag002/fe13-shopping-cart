@@ -7,9 +7,12 @@ import {
   Typography,
   Icon,
   Button,
-  Box
+  Box,
+  Badge
 } from "@material-ui/core";
-export default function Navbar() {
+import { connect } from "react-redux";
+
+function Navbar(props) {
   const style = {
     textDecoration: "none",
     color: "black"
@@ -35,9 +38,11 @@ export default function Navbar() {
               </Link>
             </Button>
             <Button>
-              <Link style={style} to="/cart">
-                Cart
-              </Link>
+              <Badge badgeContent={props.cartTotal} color="primary">
+                <Link style={style} to="/cart">
+                  Cart
+                </Link>
+              </Badge>
             </Button>
           </Box>
         </Toolbar>
@@ -45,3 +50,11 @@ export default function Navbar() {
     </div>
   );
 }
+const mapStateToProps = state => {
+  return {
+    cartTotal: state.cart.reduce(function(total, item) {
+      return (total = total + Number(item.quantity));
+    }, 0)
+  };
+};
+export default connect(mapStateToProps)(Navbar);

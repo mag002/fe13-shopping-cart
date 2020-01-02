@@ -21,6 +21,17 @@ const styles = {
   }
 };
 class Product extends React.Component {
+  handleAddProduct = () => {
+    const { name, price, id, imgSrc } = this.props;
+    const newProduct = {
+      id,
+      name,
+      price,
+      quantity: 1,
+      src: imgSrc
+    };
+    this.props.addToCart(newProduct);
+  };
   render() {
     const { name, price, imgSrc, id, classes } = this.props;
     return (
@@ -35,7 +46,12 @@ class Product extends React.Component {
             </Link>
             <Typography variant="h6">{price}$</Typography>
             <Box display="flex" justifyContent="space-between">
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={this.handleAddProduct}
+              >
                 Add
               </Button>
             </Box>

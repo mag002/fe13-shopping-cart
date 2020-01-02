@@ -9,31 +9,54 @@ import theme from "./commons/theme";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 const initState = {
-  cart: [
-    {
-      id: 0,
-      name: "Ao Ba lo",
-      price: 22.5,
-      size: "S",
-      quantity: "2"
-    },
-    {
-      id: 0,
-      name: "Ao Ba lo",
-      price: 22.5,
-      size: "S",
-      quantity: "2"
-    },
-    {
-      id: 0,
-      name: "Ao Ba lo",
-      price: 22.5,
-      size: "S",
-      quantity: "2"
-    }
-  ]
+  cart: []
 };
 const rootReducer = (state = initState, action) => {
+  switch (action.type) {
+    case "ADD_TO_CART": {
+      const indexOfProduct = state.cart.findIndex(ele => {
+        return ele.id === action.payload.id;
+      });
+      // -1 hoac 0=>99999
+      if (indexOfProduct >= 0) {
+        const newCartState = [...state.cart];
+        //copy mang state cart trong store
+        newCartState[indexOfProduct].quantity =
+          Number(newCartState[indexOfProduct].quantity) +
+          Number(action.payload.quantity);
+        return {
+          ...state,
+          cart: newCartState
+        };
+      } else {
+        return {
+          ...state,
+          cart: [...state.cart, action.payload]
+        };
+      }
+    }
+    case "REMOVE_FROM_CART": {
+      const newCartState = state.cart.filter(item => {
+        return item.id !== action.payload;
+      });
+      return {
+        ...state,
+        cart: newCartState
+      };
+    }
+    case "UPDATE_CART_ITEM":{
+      const newCartState = [...state.cart];
+      const indexOfProduct = state.cart.findIndex(ele => {
+        return ele.id === action.payload.id;
+      });
+      //copy mang state cart trong store
+      newCartState[indexOfProduct].quantity =action.payload.quantity
+      return {
+        ...state,
+        cart: newCartState
+      };
+    }
+  }
   return state;
 };
 
